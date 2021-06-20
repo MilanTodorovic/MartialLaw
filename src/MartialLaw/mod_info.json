@@ -1,0 +1,11 @@
+{
+  "id": "martiallaw",
+  "name": "Martial Law",
+  "author": "hypocrisy-aeron",
+  "utility": "true",
+  "version": "0.0.1",
+  "description": "Convert Crew to Marines and vice versa",
+  "gameVersion": "0.95a-RC15",
+  "jars": ["jars/MartialLaw.jar"],
+  "modPlugin": "MartialLaw.ModPlugin"
+}
