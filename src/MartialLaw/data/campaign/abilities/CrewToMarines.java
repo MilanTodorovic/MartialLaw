@@ -147,7 +147,7 @@ public class CrewToMarines extends BaseToggleAbility  {
                         Misc.getHighlightColor(),
                         Misc.getHighlightColor()
                 );
-
+                // get the fleet member's repair tracker, the CR-related methods are there
                 fleet.getCargo().removeCommodity(commoditiToUse, amountToUse);
                 fleet.getCargo().removeCrew(ModPlugin.UNITS_PER_DAY);
                 fleet.getCargo().addMarines(ModPlugin.UNITS_PER_DAY);
