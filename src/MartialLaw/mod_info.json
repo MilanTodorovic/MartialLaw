@@ -7,5 +7,5 @@
   "description": "Convert Crew to Marines and vice versa",
   "gameVersion": "0.95a-RC15",
   "jars": ["jars/MartialLaw.jar"],
-  "modPlugin": "MartialLaw.ModPlugin"
+  "modPlugin": "data.scripts.ModPlugin"
 }

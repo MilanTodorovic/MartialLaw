@@ -1,2 +1,3 @@
 name,id,demand class,base price,export value,price variability,utility,origin,tags,stack size,cargo space,icon,sound id,sound id drop,order,economyTier,econUnitOrigUnused,econUnit,baseRaidDanger,eU * base value,iconWidthMult,plugin,desc
 Light Armaments,hand_weapons2,hand_weapons,250,250,2,1,,military,1000,1,graphics/icons/cargo/lightweapons.png,ui_cargo_handweapons,ui_cargo_handweapons_drop,2,2.6,100,200,MEDIUM,100000,1,,
+Armed Crew,armed_crew,marines,125,0,4,1,,"personel, marines, military, crew",1000,0,graphics/icons/cargo/armed_crew_cargo.png,ui_cargo_crew,ui_cargo_crew_drop,0.9,3.3,200,250,,25000,0.6,,

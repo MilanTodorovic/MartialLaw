@@ -1,6 +1,6 @@
 //package MartialLaw.data.campaign.abilities;
 //
-//import MartialLaw.ModPlugin;
+//import MartialLaw.data.scripts.ModPlugin;
 //
 //import java.awt.Color;
 //import java.util.EnumSet;
