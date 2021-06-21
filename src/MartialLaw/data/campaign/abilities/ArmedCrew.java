@@ -45,7 +45,9 @@ public class ArmedCrew extends BaseDurationAbility {
     @Override
     protected String getActivationText() {
         if (getFleet() != null) {
+            // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
             float heavryArmamanets = getFleet().getCargo().getCommodityQuantity("hand_weapons");
+            // hand_weapons2 are my own commodity
             float lightArmaments = getFleet().getCargo().getCommodityQuantity("hand_weapons2");
             if (hasEnoughHeavyArmaments(heavryArmamanets) || hasEnoughLigthArmaments(lightArmaments)) {
                 return "Undergoing militarization of crew members.";
@@ -115,8 +117,9 @@ public class ArmedCrew extends BaseDurationAbility {
 
         float minCrew = fleet.getFleetData().getMinCrew();
         float crew = fleet.getCargo().getCrew();
-
+        // hand_weapons2 are my own commodity
         float lightArmament = fleet.getCargo().getCommodityQuantity("hand_weapons2");
+        // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
         float heavyArmament = fleet.getCargo().getCommodityQuantity("hand_weapons");
         boolean hasLigthArmament = hasEnoughLigthArmaments(lightArmament);
         boolean hasHeavyArmament = hasEnoughHeavyArmaments(heavyArmament);
@@ -151,6 +154,7 @@ public class ArmedCrew extends BaseDurationAbility {
                     commodityToUse = "hand_weapons2";
                     amountToUse = ModPlugin.LIGHT_ARMAMENT;
                 } else if (hasHeavyArmament) {
+                    // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
                     commodityToUse = "hand_weapons";
                     amountToUse = ModPlugin.HEAVY_ARMAMENT;
                 }
