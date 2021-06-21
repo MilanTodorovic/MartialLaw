@@ -1,0 +1,5 @@
+id,type,text1,text2,text3,notes
+militarized_lightindustry,CUSTOM,"Militarized Light Industry. Produces Light Armament used to arm civilians. Reduces stability of the colony.",,,
+,,,,,
+hand_weapons2,RESOURCE,"Used to arm civilians.",,,
+armed_crew,RESOURCE,"Crew, but with guns.",,,

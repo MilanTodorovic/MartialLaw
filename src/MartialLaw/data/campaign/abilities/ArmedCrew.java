@@ -1,14 +1,12 @@
-package data.campaign.abilities;
+package MartialLaw.data.campaign.abilities;
 
-import data.scripts.ModPlugin;
+import MartialLaw.data.scripts.MartialLawPlugin;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.abilities.BaseDurationAbility;
 import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
@@ -17,17 +15,17 @@ import com.fs.starfarer.api.util.Misc;
 
 public class ArmedCrew extends BaseDurationAbility {
 
-    protected static float amountToUse = ModPlugin.LIGHT_ARMAMENT;
+    protected static float amountToUse = MartialLawPlugin.LIGHT_ARMAMENT;
     protected static String commodityToUse = "hand_weapons2"; // light armaments
 
 //    protected boolean hasEnoughCrew() {
-//        return getFleet().getCargo().getCrew() - ModPlugin.UNITS > getFleet().getFleetData().getMinCrew();
+//        return getFleet().getCargo().getCrew() - MartialLawPlugin.UNITS > getFleet().getFleetData().getMinCrew();
 //    }
 
     protected boolean hasEnoughCR(List<FleetMemberAPI> ships) {
         for (FleetMemberAPI ship : ships) {
             float CR = ship.getRepairTracker().getCR();
-            if (CR < ModPlugin.MINIMUM_CR) {
+            if (CR < MartialLawPlugin.MINIMUM_CR) {
                 return false;
             }
         }
@@ -35,11 +33,11 @@ public class ArmedCrew extends BaseDurationAbility {
     }
 
     protected boolean hasEnoughLigthArmaments(float amount) {
-        return amount >= ModPlugin.LIGHT_ARMAMENT;
+        return amount >= MartialLawPlugin.LIGHT_ARMAMENT;
     }
 
     protected boolean hasEnoughHeavyArmaments(float amount) {
-        return amount >= ModPlugin.HEAVY_ARMAMENT;
+        return amount >= MartialLawPlugin.HEAVY_ARMAMENT;
     }
 
     @Override
@@ -79,17 +77,17 @@ public class ArmedCrew extends BaseDurationAbility {
         // TODO this excludes scuttled ships. Disallow it?
         List<FleetMemberAPI> ships = getFleet().getFleetData().getCombatReadyMembersListCopy();
         if (!hasEnoughCR(ships)) {
-            tooltip.addPara("Your fleet must be over " + ModPlugin.MINIMUM_CR + " CR to be able to convert Crew to Armed Crew.",
+            tooltip.addPara("Your fleet must be over " + MartialLawPlugin.MINIMUM_CR + " CR to be able to convert Crew to Armed Crew.",
                     Misc.getNegativeHighlightColor(), pad);
         } else {
-            tooltip.addPara("Your fleet is arming " + ModPlugin.UNITS + " crew members and is using" + amountToUse
+            tooltip.addPara("Your fleet is arming " + MartialLawPlugin.UNITS + " crew members and is using" + amountToUse
                             + " " + commodityToUse + ". Combat readiness degraded by "
-                            + Float.toString(ModPlugin.COMBAT_READINESS_LOSS) + ".",
+                            + Float.toString(MartialLawPlugin.COMBAT_READINESS_LOSS) + ".",
                     pad, Misc.getTextColor(), Misc.getPositiveHighlightColor());
         }
 
         tooltip.addPara("Lowers the maximum burn level at which the fleet can move by %s.",
-                pad, highlight, String.valueOf(ModPlugin.BURN_LEVEL_REDUCED));
+                pad, highlight, String.valueOf(MartialLawPlugin.BURN_LEVEL_REDUCED));
 
         addIncompatibleToTooltip(tooltip, expanded);
     }
@@ -102,7 +100,7 @@ public class ArmedCrew extends BaseDurationAbility {
     @Override
     protected void activateImpl() {
         float maxBurnLevel = getFleet().getFleetData().getMaxBurnLevel();
-        getFleet().getStats().getFleetwideMaxBurnMod().modifyFlat(getModId(), maxBurnLevel - ModPlugin.BURN_LEVEL_REDUCED, "Militarization of crew members");
+        getFleet().getStats().getFleetwideMaxBurnMod().modifyFlat(getModId(), maxBurnLevel - MartialLawPlugin.BURN_LEVEL_REDUCED, "Militarization of crew members");
     }
 
     @Override
@@ -130,12 +128,13 @@ public class ArmedCrew extends BaseDurationAbility {
         boolean result = hasEnoughCR(ships);
         if (!result) {
             deactivate();
-            getFleet().addFloatingText("Not enough CR. Some ship(s) have less CR than the minimum required (" + ModPlugin.MINIMUM_CR + "%).",
+            getFleet().addFloatingText("Not enough CR. Some ship(s) have less CR than the minimum required (" + MartialLawPlugin.MINIMUM_CR + "%).",
                     Misc.setAlpha(entity.getIndicatorColor(), 255), 0.8f);
         } else {
             for (FleetMemberAPI ship : ships) {
                 float CR = ship.getRepairTracker().getCR();
-                ship.getRepairTracker().setCR(CR - ModPlugin.COMBAT_READINESS_LOSS);
+                ship.getRepairTracker().applyCREvent(CR - MartialLawPlugin.COMBAT_READINESS_LOSS, "ml_armed_crew", "Militarizing crew members");
+//                ship.getRepairTracker().setCR(CR - MartialLawPlugin.COMBAT_READINESS_LOSS);
             }
 
 //            if (hasEnoughCrew()) {
@@ -152,15 +151,15 @@ public class ArmedCrew extends BaseDurationAbility {
                 // prefer Light Armaments
                 if (hasLigthArmament) {
                     commodityToUse = "hand_weapons2";
-                    amountToUse = ModPlugin.LIGHT_ARMAMENT;
+                    amountToUse = MartialLawPlugin.LIGHT_ARMAMENT;
                 } else if (hasHeavyArmament) {
                     // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
                     commodityToUse = "hand_weapons";
-                    amountToUse = ModPlugin.HEAVY_ARMAMENT;
+                    amountToUse = MartialLawPlugin.HEAVY_ARMAMENT;
                 }
 
                 fleet.getCargo().removeCommodity(commodityToUse, amountToUse);
-                fleet.getCargo().removeCrew(ModPlugin.UNITS);
+                fleet.getCargo().removeCrew(MartialLawPlugin.UNITS);
                 fleet.getCargo().addCommodity("armed_crew", amountToUse);
             }
         }

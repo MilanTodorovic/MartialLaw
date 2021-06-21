@@ -1,6 +1,6 @@
 //package MartialLaw.data.campaign.abilities;
 //
-//import MartialLaw.data.scripts.ModPlugin;
+//import MartialLaw.data.scripts.MartialLawPlugin;
 //
 //import java.awt.Color;
 //import java.util.EnumSet;
@@ -61,7 +61,7 @@
 //        }
 //
 //        tooltip.addPara("Increases the range at which the fleet can be detected by %s and consumes supplies in exchange for fuel.",
-//                pad, highlight, (int)ModPlugin.SENSOR_PROFILE_INCREASE_PERCENT + "%");
+//                pad, highlight, (int)MartialLawPlugin.SENSOR_PROFILE_INCREASE_PERCENT + "%");
 //
 //
 //        addIncompatibleToTooltip(tooltip, expanded);

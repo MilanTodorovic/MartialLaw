@@ -1,11 +1,11 @@
-package data.scripts;
+package MartialLaw.data.scripts;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import org.json.JSONObject;
 
 // TODO check if it doesn't use too many crew, keep the minimum
-public class ModPlugin extends BaseModPlugin {
+public class MartialLawPlugin extends BaseModPlugin {
     public static final String ID = "martiallaw";
     public static final String ABILITY_ID = "ml_armed_crew";
 //    public static final String ABILITY_ID2 = "ml_disarmed_crew";
@@ -70,7 +70,7 @@ public class ModPlugin extends BaseModPlugin {
                 stackTrace += "    " + ste.toString() + System.lineSeparator();
             }
 
-            Global.getLogger(ModPlugin.class).error(e.getMessage() + System.lineSeparator() + stackTrace);
+            Global.getLogger(MartialLawPlugin.class).error(e.getMessage() + System.lineSeparator() + stackTrace);
         }
     }
 }
