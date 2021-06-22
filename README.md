@@ -1,9 +1,9 @@
-# MartialLaw - a Starsector mini-mod
+# MartialLaw - a Starsector mod
 [![Github All Releases](https://img.shields.io/github/downloads/MilanTodorovic/MartialLaw/total.svg)]()
 
 ## “Sometimes you have to pick the gun up to put the gun down.”- Malcolm X
 
-###TODO:
+### TODO:
 - Militarized light industry
   - reduces stability by **1**
   - produced goods can end up on the black market
@@ -17,6 +17,16 @@
   - about **75%** strength in raids
   - **75%** payroll of marines
   - **cause mutiny (CR reduction)**
+- Armed Crew Loyalty [CHANGE TO CREW LOYALTY]
+  - boost the loyalty of armed crew members
+  - reduces the chance of mutiny
+- Armed Crew Mutiny
+  - base mutiny chance : **2%** (affected by various factors [DEFINE])
+  - max burn level loss: **2**
+  - grace period in days: **25** (can occur only after 21 days since the last incident, modify for frequency)
+  - CR loss (affects **1-3** ships): **10**
+  - looses some crew/marines/armed crew in the mutiny [PERCENTAGE]
+  - Marines, Armed Crew and Crew **help in the defense** [EFFECTIVNESS]
 - Disarmed crew - ?
 - Make modified "Recent unrest" and "organized_crime" in market_conditions.csv
 - Add dialog option "Incentivize rebellion" to Colony interaction (higher chance to cause rebellions than with selling Light/Heavy Armaments to the black market)

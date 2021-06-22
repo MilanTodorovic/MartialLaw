@@ -1,5 +1,7 @@
 package MartialLaw.data.campaign.abilities;
 
+import MartialLaw.data.campaign.ids.MartialLawAbilities;
+import MartialLaw.data.campaign.ids.MartialLawCommodities;
 import MartialLaw.data.scripts.MartialLawPlugin;
 
 import java.awt.Color;
@@ -8,15 +10,16 @@ import java.util.List;
 import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.abilities.BaseDurationAbility;
+import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
 
-public class ArmedCrew extends BaseDurationAbility {
+public class ConvertToArmedCrew extends BaseDurationAbility {
 
-    protected static float amountToUse = MartialLawPlugin.LIGHT_ARMAMENT;
-    protected static String commodityToUse = "hand_weapons2"; // light armaments
+    protected static float amountToUse = MartialLawPlugin.LIGHT_ARMAMENT_AMOUNT;
+    protected static String commodityToUse = MartialLawCommodities.LIGHT_ARMAMENT; // light armaments
 
 //    protected boolean hasEnoughCrew() {
 //        return getFleet().getCargo().getCrew() - MartialLawPlugin.UNITS > getFleet().getFleetData().getMinCrew();
@@ -33,20 +36,20 @@ public class ArmedCrew extends BaseDurationAbility {
     }
 
     protected boolean hasEnoughLigthArmaments(float amount) {
-        return amount >= MartialLawPlugin.LIGHT_ARMAMENT;
+        return amount >= MartialLawPlugin.LIGHT_ARMAMENT_AMOUNT;
     }
 
     protected boolean hasEnoughHeavyArmaments(float amount) {
-        return amount >= MartialLawPlugin.HEAVY_ARMAMENT;
+        return amount >= MartialLawPlugin.HEAVY_ARMAMENT_AMOUNT;
     }
 
     @Override
     protected String getActivationText() {
         if (getFleet() != null) {
             // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
-            float heavryArmamanets = getFleet().getCargo().getCommodityQuantity("hand_weapons");
+            float heavryArmamanets = getFleet().getCargo().getCommodityQuantity(Commodities.HAND_WEAPONS);
             // hand_weapons2 are my own commodity
-            float lightArmaments = getFleet().getCargo().getCommodityQuantity("hand_weapons2");
+            float lightArmaments = getFleet().getCargo().getCommodityQuantity(MartialLawCommodities.LIGHT_ARMAMENT);
             if (hasEnoughHeavyArmaments(heavryArmamanets) || hasEnoughLigthArmaments(lightArmaments)) {
                 return "Undergoing militarization of crew members.";
             } else {
@@ -107,18 +110,19 @@ public class ArmedCrew extends BaseDurationAbility {
     protected void applyEffect(float amount, float level) {
 
         CampaignFleetAPI fleet = getFleet();
+        int militarizedSubsystemsCount = 0;
 
         if (fleet == null) return;
         if (!isActive()) return;
 
-        //float days = Global.getSector().getClock().convertToDays(amount);
+        // float days = Global.getSector().getClock().convertToDays(amount);
 
-        float minCrew = fleet.getFleetData().getMinCrew();
-        float crew = fleet.getCargo().getCrew();
+//        float minCrew = fleet.getFleetData().getMinCrew();
+//        float crew = fleet.getCargo().getCrew();
         // hand_weapons2 are my own commodity
-        float lightArmament = fleet.getCargo().getCommodityQuantity("hand_weapons2");
+        float lightArmament = fleet.getCargo().getCommodityQuantity(MartialLawCommodities.LIGHT_ARMAMENT);
         // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
-        float heavyArmament = fleet.getCargo().getCommodityQuantity("hand_weapons");
+        float heavyArmament = fleet.getCargo().getCommodityQuantity(Commodities.HAND_WEAPONS);
         boolean hasLigthArmament = hasEnoughLigthArmaments(lightArmament);
         boolean hasHeavyArmament = hasEnoughHeavyArmaments(heavyArmament);
 
@@ -132,14 +136,14 @@ public class ArmedCrew extends BaseDurationAbility {
                     Misc.setAlpha(entity.getIndicatorColor(), 255), 0.8f);
         } else {
             for (FleetMemberAPI ship : ships) {
+                if (ship.getHullSpec().getBuiltInMods().contains("militarized_subsystems")) {
+                    militarizedSubsystemsCount += 1;
+                }
                 float CR = ship.getRepairTracker().getCR();
-                ship.getRepairTracker().applyCREvent(CR - MartialLawPlugin.COMBAT_READINESS_LOSS, "ml_armed_crew", "Militarizing crew members");
+                ship.getRepairTracker().applyCREvent(CR - MartialLawPlugin.COMBAT_READINESS_LOSS, MartialLawAbilities.ARMED_CREW_ABILITY, "Militarizing crew members");
 //                ship.getRepairTracker().setCR(CR - MartialLawPlugin.COMBAT_READINESS_LOSS);
             }
 
-//            if (hasEnoughCrew()) {
-//                deactivate();
-//                getFleet().addFloatingText("Not enough crew members.", Misc.setAlpha(entity.getIndicatorColor(), 255), 0.5f);
             if (!hasLigthArmament && heavyArmament == 0) {
                 deactivate();
                 getFleet().addFloatingText("Not enough light/heavy armament.", Misc.setAlpha(entity.getIndicatorColor(), 255), 0.5f);
@@ -150,17 +154,18 @@ public class ArmedCrew extends BaseDurationAbility {
                 // all clear and ready to go
                 // prefer Light Armaments
                 if (hasLigthArmament) {
-                    commodityToUse = "hand_weapons2";
-                    amountToUse = MartialLawPlugin.LIGHT_ARMAMENT;
+                    commodityToUse = MartialLawCommodities.LIGHT_ARMAMENT;
+                    amountToUse = MartialLawPlugin.LIGHT_ARMAMENT_AMOUNT;
                 } else if (hasHeavyArmament) {
                     // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
-                    commodityToUse = "hand_weapons";
-                    amountToUse = MartialLawPlugin.HEAVY_ARMAMENT;
+                    commodityToUse = Commodities.HAND_WEAPONS;
+                    amountToUse = MartialLawPlugin.HEAVY_ARMAMENT_AMOUNT;
                 }
 
-                fleet.getCargo().removeCommodity(commodityToUse, amountToUse);
+                // reduce the amount by a percentage based on bonuses
+                fleet.getCargo().removeCommodity(commodityToUse, amountToUse - (amountToUse * militarizedSubsystemsCount * MartialLawPlugin.MULTIPLIER_PER_MILITARIZED_SUBSYSTEM));
                 fleet.getCargo().removeCrew(MartialLawPlugin.UNITS);
-                fleet.getCargo().addCommodity("armed_crew", amountToUse);
+                fleet.getCargo().addCommodity(MartialLawCommodities.ARMED_CREW, amountToUse);
             }
         }
     }

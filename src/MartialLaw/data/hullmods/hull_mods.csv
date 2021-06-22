@@ -1,0 +1,2 @@
+name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sprite
+Crew Loyalty,crew_loyalty,0,,,"req_spaceport, merc", "Special, Logistics, Requires Dock",6000,TRUE,,,5,10,15,25,data.hullmods.ArmedCrewLoyalty,"Increases the loyalty of your Crew (regular, armed and marines). Halves the chances of a mutiny occuring, reduces casualties and reduces the payroll by %s.","Increases loylaty and reduces pay.",graphics/hullmods/crew_loyalty.png
