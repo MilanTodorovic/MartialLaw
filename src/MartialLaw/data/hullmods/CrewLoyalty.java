@@ -1,17 +1,17 @@
 package MartialLaw.data.hullmods;
 
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.fs.starfarer.api.combat.BaseHullMod;
+import com.fs.starfarer.api.impl.hullmods.BaseLogisticsHullMod;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 
-public class CrewLoyalty extends BaseHullMod {
+public class CrewLoyalty extends BaseLogisticsHullMod {
 
     // TODO decide on percentages
-    private static Map<HullSize,Float> mag = new EnumMap<HullSize,Float>(HullSize.class);
-    static {
+    public final Map<HullSize, Float> mag = new HashMap<>();
+    {
         mag.put(HullSize.FRIGATE, 5f);
         mag.put(HullSize.DESTROYER, 4f);
         mag.put(HullSize.CRUISER, 3f);

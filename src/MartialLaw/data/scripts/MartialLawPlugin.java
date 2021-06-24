@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class MartialLawPlugin extends BaseModPlugin {
     public static final String ID = "martiallaw";
     public static final String ABILITY_ID = MartialLawAbilities.ARMED_CREW_ABILITY;
-//    public static final String ABILITY_ID2 = "ml_disarmed_crew";
+    //    public static final String ABILITY_ID2 = "ml_disarmed_crew";
     public static final String SETTINGS_PATH = "MARTIAL_LAW_OPTIONS.ini";
 
     public static float
@@ -21,7 +21,7 @@ public class MartialLawPlugin extends BaseModPlugin {
             LIGHT_ARMAMENT_AMOUNT = 10F,
             MINIMUM_CR = 30f,
     // TODO think more about how to distrubute rations
-            MUTINY_BASE_MULTIPLAYER = 0.04f,
+    MUTINY_BASE_MULTIPLAYER = 0.04f,
             MUTINY_PER_DAY_MULTIPLAYER = 0.01f,
             CREW_LOYALTY_BONUS = 0.01f;
     public static int
@@ -31,30 +31,16 @@ public class MartialLawPlugin extends BaseModPlugin {
     private static boolean settingsAlreadyRead = false;
 
     @Override
-    public void afterGameSave() {
-        Global.getSector().getCharacterData().addAbility(ABILITY_ID);
-//        Global.getSector().getCharacterData().addAbility(ABILITY_ID2);
-    }
-
-    @Override
-    public void beforeGameSave() {
-        Global.getSector().getCharacterData().removeAbility(ABILITY_ID);
-//        Global.getSector().getCharacterData().removeAbility(ABILITY_ID2);
-    }
-
-    @Override
     public void onGameLoad(boolean newGame) {
         try {
             if (!Global.getSector().getPlayerFleet().hasAbility(ABILITY_ID)) {
+                Global.getLogger(MartialLawPlugin.class).debug("Adding ability " + ABILITY_ID + " to the game.");
                 Global.getSector().getCharacterData().addAbility(ABILITY_ID);
+                Global.getLogger(MartialLawPlugin.class).debug("Ability " + ABILITY_ID + " added to the game.");
             }
 
-//            if (!Global.getSector().getPlayerFleet().hasAbility(ABILITY_ID2)) {
-//                Global.getSector().getCharacterData().addAbility(ABILITY_ID2);
-//            }
-
-
             if (!settingsAlreadyRead) {
+                Global.getLogger(MartialLawPlugin.class).debug("Reading .INI file.");
                 JSONObject cfg = Global.getSettings().getMergedJSONForMod(SETTINGS_PATH, ID);
 
 //                MULTIPLIER_PER_CIVILIAN_HULL = (float) Math.max(0, cfg.getDouble("conversionMultiplierPerCivilianHull"));
@@ -72,6 +58,9 @@ public class MartialLawPlugin extends BaseModPlugin {
 
                 settingsAlreadyRead = true;
             }
+
+            Global.getSector().addTransientScript(new MartialLawEveryFrameScript());
+            // Global.getSector().getListenerManager().addListener(new SomeListener(), true);
 
         } catch (Exception e) {
             String stackTrace = "";

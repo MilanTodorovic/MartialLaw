@@ -35,7 +35,7 @@ public class ConvertToArmedCrew extends BaseDurationAbility {
         return true;
     }
 
-    protected boolean hasEnoughLigthArmaments(float amount) {
+    protected boolean hasEnoughLightArmaments(float amount) {
         return amount >= MartialLawPlugin.LIGHT_ARMAMENT_AMOUNT;
     }
 
@@ -47,10 +47,10 @@ public class ConvertToArmedCrew extends BaseDurationAbility {
     protected String getActivationText() {
         if (getFleet() != null) {
             // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
-            float heavryArmamanets = getFleet().getCargo().getCommodityQuantity(Commodities.HAND_WEAPONS);
+            float heavyArmamanets = getFleet().getCargo().getCommodityQuantity(Commodities.HAND_WEAPONS);
             // hand_weapons2 are my own commodity
             float lightArmaments = getFleet().getCargo().getCommodityQuantity(MartialLawCommodities.LIGHT_ARMAMENT);
-            if (hasEnoughHeavyArmaments(heavryArmamanets) || hasEnoughLigthArmaments(lightArmaments)) {
+            if (hasEnoughHeavyArmaments(heavyArmamanets) || hasEnoughLightArmaments(lightArmaments)) {
                 return "Undergoing militarization of crew members.";
             } else {
                 return null;
@@ -63,17 +63,17 @@ public class ConvertToArmedCrew extends BaseDurationAbility {
 
     @Override
     public void createTooltip(TooltipMakerAPI tooltip, boolean expanded) {
-        Color gray = Misc.getGrayColor();
+//        Color gray = Misc.getGrayColor();
         Color highlight = Misc.getHighlightColor();
 
-        String status = " (off)";
-        if (turnedOn) {
-            status = " (on)";
-        }
+//        String status = " (off)";
+//        if (turnedOn) {
+//            status = " (on)";
+//        }
 
-        LabelAPI title = tooltip.addTitle(spec.getName() + status);
-        title.highlightLast(status);
-        title.setHighlightColor(gray);
+//        LabelAPI title = tooltip.addTitle(spec.getName() + status);
+//        title.highlightLast(status);
+//        title.setHighlightColor(gray);
 
         float pad = 10f;
         tooltip.addPara("Arms Crew with Light or Heavy Armaments and converts them into Armed Crew.", pad);
@@ -123,7 +123,7 @@ public class ConvertToArmedCrew extends BaseDurationAbility {
         float lightArmament = fleet.getCargo().getCommodityQuantity(MartialLawCommodities.LIGHT_ARMAMENT);
         // TODO future reference: at this time, 'hand_weapons' are 'Heavy Armaments' using the picture 'heavyweapons.png'
         float heavyArmament = fleet.getCargo().getCommodityQuantity(Commodities.HAND_WEAPONS);
-        boolean hasLigthArmament = hasEnoughLigthArmaments(lightArmament);
+        boolean hasLightArmament = hasEnoughLightArmaments(lightArmament);
         boolean hasHeavyArmament = hasEnoughHeavyArmaments(heavyArmament);
 
         // Get all ships from the fleet and check their CR
@@ -144,7 +144,7 @@ public class ConvertToArmedCrew extends BaseDurationAbility {
 //                ship.getRepairTracker().setCR(CR - MartialLawPlugin.COMBAT_READINESS_LOSS);
             }
 
-            if (!hasLigthArmament && heavyArmament == 0) {
+            if (!hasLightArmament && heavyArmament == 0) {
                 deactivate();
                 getFleet().addFloatingText("Not enough light/heavy armament.", Misc.setAlpha(entity.getIndicatorColor(), 255), 0.5f);
             } else if (!hasHeavyArmament && lightArmament == 0) {
@@ -153,7 +153,7 @@ public class ConvertToArmedCrew extends BaseDurationAbility {
             } else {
                 // all clear and ready to go
                 // prefer Light Armaments
-                if (hasLigthArmament) {
+                if (hasLightArmament) {
                     commodityToUse = MartialLawCommodities.LIGHT_ARMAMENT;
                     amountToUse = MartialLawPlugin.LIGHT_ARMAMENT_AMOUNT;
                 } else if (hasHeavyArmament) {

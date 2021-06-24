@@ -4,7 +4,7 @@
   "author": "hypocrisy-aeron",
   "utility": "true",
   "version": "0.0.1",
-  "description": "Convert Crew to Marines and vice versa",
+  "description": "Convert Crew to Marines",
   "gameVersion": "0.95a-RC15",
   "jars": ["jars/MartialLaw.jar"],
   "modPlugin": "MartialLaw.data.scripts.MartialLawPlugin"
