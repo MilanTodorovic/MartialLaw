@@ -28,6 +28,7 @@
   - looses some crew/marines/armed crew in the mutiny [PERCENTAGE]
   - Marines, Armed Crew and Crew **help in the defense** [EFFECTIVNESS]
 - Disarmed crew - ?
+- Office personality perks/disadvantages in form of loyalty and skills
 - Make modified "Recent unrest" and "organized_crime" in market_conditions.csv
 - Add dialog option "Incentivize rebellion" to Colony interaction (higher chance to cause rebellions than with selling Light/Heavy Armaments to the black market)
   - with transponder reduces reputation by **10**
